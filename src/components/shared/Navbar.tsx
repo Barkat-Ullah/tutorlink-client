@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -15,42 +15,27 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  BookOpen,
-  Menu,
-  User,
-  LogOut,
-  Calendar,
-  BookMarked,
-  LayoutDashboard,
-  Settings,
-} from "lucide-react";
+import { BookOpen, Menu, LogOut } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 import { logout } from "@/services/AuthServices";
-import { ProtectedRoutes } from "../constants";
 
-type DashboardInfo = {
-  link: string;
-  icon?: ReactNode;
-  label: string;
-};
 
 const Navbar = () => {
   const pathname = usePathname();
   const { user, setIsLoading } = useUser();
-  console.log(user, `this name is ${user?.name}`);
+  console.log(user);
+
   const router = useRouter();
 
   const handleLogout = () => {
     logout();
     setIsLoading(true);
-    if (ProtectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
-    }
+    
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -67,38 +52,10 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/tutors", label: "Browse Tutors" },
+    { href: "/browse-tutors", label: "Browse Tutors" },
     { href: "/about", label: "About Us" },
-    { href: "/blog", label: "Blog" },
+    { href: "/blogs", label: "Blog" },
   ];
-
-  // Get dashboard link and icon based on user role
-  const getDashboardInfo = (role: string): DashboardInfo => {
-    switch (role) {
-      case "admin":
-        return {
-          link: "/admin",
-          icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
-          label: "Admin Dashboard",
-        };
-      case "tutor":
-        return {
-          link: "/tutor",
-          icon: <Calendar className="mr-2 h-4 w-4" />,
-          label: "Tutor Dashboard",
-        };
-      case "student":
-      default:
-        return {
-          link: "/student",
-          icon: <BookMarked className="mr-2 h-4 w-4" />,
-          label: "Student Dashboard",
-        };
-    }
-  };
-
-  // Only calculate dashboardInfo if user exists
-  const dashboardInfo = user ? getDashboardInfo(user?.role) : null;
 
   return (
     <header
@@ -144,7 +101,7 @@ const Navbar = () => {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-10 w-10 rounded-full"
+                    className="relative h-10 w-10 rounded-full cursor-pointer"
                   >
                     <Avatar className="h-10 w-10">
                       <AvatarImage
@@ -157,6 +114,7 @@ const Navbar = () => {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
+
                 <DropdownMenuContent align="end" className="w-56">
                   <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-1 leading-none">
@@ -167,44 +125,21 @@ const Navbar = () => {
                     </div>
                   </div>
                   <DropdownMenuSeparator />
-                  {dashboardInfo && (
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={dashboardInfo.link}
-                        className="cursor-pointer flex w-full items-center"
-                      >
-                        {dashboardInfo.icon}
-                        {dashboardInfo.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link
-                      href="/profile"
-                      className="cursor-pointer flex w-full items-center"
-                    >
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </Link>
+                    <Link href="/profile">Profile</Link>
                   </DropdownMenuItem>
-                  {user.role === "admin" && (
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href="/admin/settings"
-                        className="cursor-pointer flex w-full items-center"
-                      >
-                        <Settings className="mr-2 h-4 w-4" />
-                        Platform Settings
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="cursor-pointer text-red-600 focus:text-red-600"
                     onClick={handleLogout}
+                    className="text-red-500 cursor-pointer"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -266,31 +201,23 @@ const Navbar = () => {
                           Become A Tutor
                         </Button>
                         <div className="h-px bg-border my-2" />
-                        {dashboardInfo && (
-                          <Link
-                            href={dashboardInfo.link}
-                            className="flex items-center gap-2 text-sm font-medium"
-                          >
-                            {dashboardInfo.icon}
-                            {dashboardInfo.label}
+                        <DropdownMenuContent>
+                          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <Link href="/profile">
+                            <DropdownMenuItem>Profile</DropdownMenuItem>
                           </Link>
-                        )}
-                        <Link
-                          href="/profile"
-                          className="flex items-center gap-2 text-sm font-medium"
-                        >
-                          <User className="h-4 w-4 mr-2" />
-                          Profile
-                        </Link>
-                        {user.role === "admin" && (
-                          <Link
-                            href="/admin/settings"
-                            className="flex items-center gap-2 text-sm font-medium"
-                          >
-                            <Settings className="h-4 w-4 mr-2" />
-                            Platform Settings
+                          <Link href="/dashboard">
+                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
                           </Link>
-                        )}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={handleLogout}
+                            className="text-red-500 cursor-pointer"
+                          >
+                            Logout
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
                         <button
                           onClick={handleLogout}
                           className="flex items-center gap-2 text-sm font-medium text-red-600"

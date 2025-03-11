@@ -21,11 +21,13 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "@/components/schema/loginValidationSchema";
 import { BookOpen } from "lucide-react";
+import { useUser } from "@/context/UserContext";
 
 export default function LoginForm() {
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
+  const { updateUser } = useUser();
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
@@ -41,6 +43,7 @@ export default function LoginForm() {
       if (res?.success) {
         toast.success(res?.message);
         reset();
+        await updateUser();
         if (redirect) {
           router.push(redirect);
         } else {

@@ -18,6 +18,7 @@ import { registerUser } from "@/services/AuthServices";
 import { registrationSchema } from "@/components/schema/registerValidationSchema";
 import { BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function RegisterForm() {
   const form = useForm({
@@ -28,6 +29,7 @@ const router = useRouter()
     formState: { isSubmitting },
     reset,
   } = form;
+  const { updateUser } = useUser();
 
   const password = form.watch("password");
   const passwordConfirm = form.watch("passwordConfirm");
@@ -38,6 +40,7 @@ const router = useRouter()
       if (res?.success) {
         toast.success(res?.message);
         reset();
+        await updateUser();
         router.push("/");
       } else {
         toast.error(res?.message);
