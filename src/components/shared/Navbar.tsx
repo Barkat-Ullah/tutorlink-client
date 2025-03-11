@@ -28,8 +28,6 @@ import { logout } from "@/services/AuthServices";
 const Navbar = () => {
   const pathname = usePathname();
   const { user, setIsLoading } = useUser();
-  console.log(user);
-
   const router = useRouter();
 
   const handleLogout = () => {

@@ -49,7 +49,8 @@ export type Tutor = {
   createdAt: string;
   updatedAt: string;
   logo:string;
-  email:string
+  email:string;
+  bio:string;
 };
 
 type Subject = {

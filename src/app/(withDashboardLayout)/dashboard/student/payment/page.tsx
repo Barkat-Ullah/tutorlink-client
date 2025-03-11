@@ -1,10 +1,12 @@
 import PaymentHistory from '@/components/module/student/PaymentHistory';
+import { getOrder } from '@/services/OrderServices';
 import React from 'react';
 
-const Payment = () => {
+const Payment = async() => {
+    const payments = await getOrder()
     return (
         <div>
-            <PaymentHistory/>
+            <PaymentHistory payments={payments}/>
         </div>
     );
 };

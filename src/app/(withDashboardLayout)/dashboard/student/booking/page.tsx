@@ -1,11 +1,15 @@
-import React from 'react';
+import StudentBooking from "@/components/module/dashboard/RoleBased/Student/StudentBooking";
+import { getStudentBooking } from "@/services/BookingServices";
+import React from "react";
 
-const Booking = () => {
-    return (
-        <div>
-            <h2>Pending</h2>
-        </div>
-    );
+const Booking = async () => {
+  const bookings = await getStudentBooking();
+
+  return (
+    <div>
+      <StudentBooking bookings={bookings}/>
+    </div>
+  );
 };
 
 export default Booking;

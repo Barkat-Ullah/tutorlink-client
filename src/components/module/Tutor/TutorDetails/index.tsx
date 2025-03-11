@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,10 @@ import {
   Mail,
 } from "lucide-react";
 import type { Tutor } from "@/types/tutor.type";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import { toast } from "sonner";
+import { createBooking } from "@/services/BookingServices";
 
 interface TutorDetailProps {
   tutor: Tutor;
@@ -25,13 +30,55 @@ interface AvailabilityItem {
 }
 
 const TutorDetail = ({ tutor }: TutorDetailProps) => {
-//   const handleBookNow = () => {
-//  router.push("/student-dashboard");
-//   };
+  console.log(tutor);
+  const { user } = useUser();
+  console.log(user);
+  const router = useRouter();
+  const handleBookNow = async () => {
+    // Check if user is logged in
+    if (!user?.userId) {
+      toast.error("Please login to book a tutor");
+      router.push("/login");
+      return;
+    }
 
-//   const handleGoBack = () => {
-//     router.back();
-//   };
+    // Get the first subject from tutor's subjects array
+    const subjectId = tutor.subjects[0]?._id;
+
+    // Get current date and time for booking
+    const currentDate = new Date();
+    const dateTime = currentDate.toISOString();
+
+    // Use the tutor's monthly rate as price
+    const price = tutor.monthlyRate || 0;
+
+    const data = {
+      studentId: user?.userId,
+      tutorId: tutor?.user?._id,
+      subjectId,
+      dateTime,
+      price,
+    };
+
+    try {
+      const res = await createBooking(data);
+      console.log(res)
+
+      if (res.success) {
+        toast.success(res.message);
+        router.push("/dashboard/student/booking");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const handleGoBack = () => {
+    router.back();
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -45,7 +92,8 @@ const TutorDetail = ({ tutor }: TutorDetailProps) => {
                   <Image
                     src={
                       tutor.logo ||
-                      "https://i.ibb.co.com/35TWz6CG/download-1.jpg"
+                      "https://i.ibb.co.com/35TWz6CG/download-1.jpg" ||
+                      "/placeholder.svg"
                     }
                     alt={tutor.user.name || "Tutor"}
                     fill
@@ -176,17 +224,17 @@ const TutorDetail = ({ tutor }: TutorDetailProps) => {
                 <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-2">
                   Bio
                 </h4>
-                <p className="text-muted-foreground">Not Available</p>
+                <p className="text-muted-foreground"> {tutor?.bio}</p>
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex justify-center gap-4 mt-6">
-            <Button variant="secondary" >
+            <Button variant="secondary" onClick={handleGoBack}>
               <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </Button>
-            <Button>Book Now</Button>
+            <Button onClick={handleBookNow}>Book Now</Button>
           </div>
         </div>
       </Card>
