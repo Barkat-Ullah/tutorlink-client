@@ -59,10 +59,31 @@ const profileFormSchema = z.object({
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
+interface ProfileData {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNo: string;
+  gender: "Male" | "Female" | "Other";
+  dateOfBirth: string;
+  address: string;
+  photo?: string;
+  role: string;
+  isActive: boolean;
+  createdAt?: string;
+  // Add any other properties that exist in your profile object
+}
 
-const StudentProfileView = () => {
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+// Define the props interface for the component
+interface StudentProfileViewProps {
+  profile: ProfileData | null;
+}
+
+const StudentProfileView = ({
+  profile: initialProfile,
+}: StudentProfileViewProps) => {
+  const [profile, setProfile] = useState<ProfileData | null>(initialProfile);
+  const [loading, setLoading] = useState(!initialProfile);
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -95,7 +116,7 @@ const StudentProfileView = () => {
             photo: data.data.photo,
           });
         }
-      } catch (error:any) {
+      } catch (error: any) {
         console.error("Failed to fetch profile:", error);
         toast.error(error);
       } finally {
@@ -112,15 +133,15 @@ const StudentProfileView = () => {
     setUpdating(true);
     try {
       const result = await updateProfile(profile._id, data);
-      console.log(result)
+      console.log(result);
       if (result?.success) {
         setProfile(result.data);
         setIsEditing(false);
-         toast.success(result?.message);
+        toast.success(result?.message);
       } else {
         toast.success(result?.message);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Error updating profile:", error);
       toast.error(error);
     } finally {

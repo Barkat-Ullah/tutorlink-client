@@ -24,8 +24,6 @@ export const createBooking = async (data: FieldValues) => {
   }
 };
 
-
-
 export const getTutorBooking = async () => {
   try {
     const res = await fetch(
@@ -40,7 +38,7 @@ export const getTutorBooking = async () => {
       }
     );
     const data = await res.json();
-    return data;
+    return data.data;
   } catch (error: any) {
     return Error(error.message);
   }
@@ -65,6 +63,34 @@ export const getStudentBooking = async () => {
     return Error(error.message);
   }
 };
+
+export async function updateBookingStatus(bookingId: string, status: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/booking/${bookingId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
+         body: JSON.stringify({ status }),
+      }
+    );
+    console.log(response)
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to update booking status");
+    }
+    revalidateTag("Booking");
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating booking status:", error);
+    throw error;
+  }
+}
 
 export const updateBooking = async (id: string, data: any) => {
   try {
