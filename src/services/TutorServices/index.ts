@@ -139,6 +139,7 @@ export const updateTutorProfile = async (id: string, data: Tutor) => {
       },
       body: JSON.stringify(data),
     });
+    console.log(res)
 
     revalidateTag("Profile");
     return await res.json();

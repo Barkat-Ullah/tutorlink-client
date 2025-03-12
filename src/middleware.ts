@@ -15,6 +15,7 @@ const roleBasedPrivateRoutes = {
   tutor: [
     /^\/dashboard$/,
     /^\/dashboard\/tutor\/profile$/,
+    /^\/dashboard\/tutor\/profile\/[^\/]+$/, 
     /^\/dashboard\/tutor\/booking$/,
   ],
   admin: [/^\/dashboard$/, /^\/dashboard\/admin\/user$/],

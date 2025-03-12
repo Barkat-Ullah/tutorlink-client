@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import {
   Calendar,
   Clock,
@@ -26,20 +26,22 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tutor } from "@/types/tutor.type";
+import Link from "next/link";
 
 interface TutorProfileProps {
   tutorData: Tutor;
 }
 
 const TutorProfile = ({ tutorData }: TutorProfileProps) => {
-  const router = useRouter();
+  console.log(tutorData._id)
+  // const router = useRouter();
   const [activeTab, setActiveTab] = useState("overview");
   console.log(activeTab)
 
   // Handle edit profile button click
-  const handleEditProfile = () => {
-    router.push("/dashboard/tutor/edit-profile");
-  };
+  // const handleEditProfile = () => {
+  //   router.push(`/dashboard/tutor/${tutorData._id}`);
+  // };
 
   if (!tutorData) {
     return (
@@ -82,10 +84,12 @@ const TutorProfile = ({ tutorData }: TutorProfileProps) => {
     <div className="container mx-auto py-6 max-w-6xl">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Tutor Profile</h1>
-        <Button onClick={handleEditProfile}>
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Profile
-        </Button>
+        <Link href={`/dashboard/tutor/profile/${tutorData._id}`}>
+          <Button>
+            <Edit className="mr-2 h-4 w-4" />
+            Edit Profile
+          </Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
