@@ -4,7 +4,7 @@ import {
   Division,
   Subject,
 } from "@/app/(withCommonLayout)/become-a-tutor/page";
-import { TutorData } from "@/types/tutor.type";
+import { Tutor } from "@/types/tutor.type";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -111,6 +111,42 @@ export const getTutor = async () => {
   }
 };
 
+export const getTutorProfileInfo = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor/me`, {
+      next: {
+        tags: ["Profile"],
+      },
+      headers: {
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+    });
+
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+  }
+};
+
+export const updateTutorProfile = async (id: string, data: Tutor) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+      body: JSON.stringify(data),
+    });
+
+    revalidateTag("Profile");
+    return await res.json();
+  } catch (error) {
+    console.error("Error updating profile:", error);
+  }
+};
+
 // get single product
 export const getSingleTutor = async (tutorId: string) => {
   try {
@@ -129,7 +165,7 @@ export const getSingleTutor = async (tutorId: string) => {
   }
 };
 
-export const createTutor = async (tutorData: TutorData): Promise<any> => {
+export const createTutor = async (tutorData: Tutor): Promise<any> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor`, {
       method: "POST",
