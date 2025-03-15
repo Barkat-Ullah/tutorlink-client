@@ -60,6 +60,24 @@ import { createTutor } from "@/services/TutorServices";
 import { useRouter } from "next/navigation";
 import { logout } from "@/services/AuthServices";
 
+export interface TutorData {
+  name: string;
+  email: string;
+  phone: string;
+  bio: string;
+  division: string;
+  district: string;
+  area: string;
+  subjects: string[];
+  monthlyRate: number;
+  experience: number;
+  education: string;
+  availability: {
+    day: string;
+    timeSlots: string[];
+  }[];
+  logo: string;
+}
 const daysOfWeek = [
   "Monday",
   "Tuesday",
@@ -161,7 +179,7 @@ export default function TutorRegistrationForm({
       }
 
       // Format the data for submission
-      const tutorData = {
+      const tutorData:TutorData = {
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -180,8 +198,12 @@ export default function TutorRegistrationForm({
 
       if (res.success) {
         toast.success(res.message);
-        await logout();
-        router.push("/login");
+        if (res.success) {
+          toast.success(res.message);
+           await logout();
+           router.push("/login");
+       
+        }
       }
     } catch (err: any) {
       // toast.error( err);

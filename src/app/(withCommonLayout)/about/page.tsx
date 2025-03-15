@@ -164,37 +164,37 @@ export default function AboutUs() {
                 name: "Emma Johnson",
                 role: "Founder & CEO",
                 bio: "Former educator with a passion for making quality education accessible to all students.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
               {
                 name: "David Chen",
                 role: "CTO",
                 bio: "Tech innovator focused on creating intuitive educational platforms that connect students and tutors.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
               {
                 name: "Sophia Rodriguez",
                 role: "Head of Tutor Relations",
                 bio: "Experienced academic advisor dedicated to recruiting and supporting top-quality tutors.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
               {
                 name: "Marcus Williams",
                 role: "Head of Student Success",
                 bio: "Education specialist committed to ensuring positive learning outcomes for all students.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
               {
                 name: "Aisha Patel",
                 role: "Marketing Director",
                 bio: "Creative strategist passionate about spreading the word about educational opportunities.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
               {
                 name: "Thomas Lee",
                 role: "Product Manager",
                 bio: "User experience expert focused on making TutorLink intuitive and accessible for everyone.",
-                image: "/placeholder.svg?height=300&width=300",
+               image:"https://i.ibb.co.com/Xrx7FQR4/team.jpg"
               },
             ].map((member, index) => (
               <div

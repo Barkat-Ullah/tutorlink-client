@@ -4,6 +4,7 @@ import {
   Division,
   Subject,
 } from "@/app/(withCommonLayout)/become-a-tutor/page";
+import { TutorData } from "@/components/module/BecomeATutor/CreateTutor";
 import { Tutor } from "@/types/tutor.type";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
@@ -166,7 +167,7 @@ export const getSingleTutor = async (tutorId: string) => {
   }
 };
 
-export const createTutor = async (tutorData: Tutor): Promise<any> => {
+export const createTutor = async (tutorData: TutorData): Promise<any> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor`, {
       method: "POST",
@@ -181,4 +182,24 @@ export const createTutor = async (tutorData: Tutor): Promise<any> => {
   } catch (error: any) {
     return Error(error);
   }
+};
+// TutorServices.js
+
+export const updateTutorRole = async (roleData: { role: string }): Promise<any> => {
+    try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user/update-role`,
+          {
+            method: "PATCH",
+            body: JSON.stringify(roleData),
+            headers: {
+              "Content-Type": "application/json",
+               Authorization: (await cookies()).get("accessToken")!.value,
+            },
+          }
+        );
+        return res.json();
+    } catch (error: any) {
+        return Error(error);
+    }
 };

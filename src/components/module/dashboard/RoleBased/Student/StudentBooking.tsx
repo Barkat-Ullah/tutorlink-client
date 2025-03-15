@@ -115,7 +115,9 @@ const StudentBooking: React.FC<StudentBookingProps> = ({ bookings }) => {
 
     try {
       const res = await createOrder(orderData);
-      if (res.success) {
+      console.log(res)
+      if (res?.data?.checkout_url) {
+         window.location.href = res.data.checkout_url;
         toast.success(res.message);
         router.push("/dashboard/student/payment");
       } else {

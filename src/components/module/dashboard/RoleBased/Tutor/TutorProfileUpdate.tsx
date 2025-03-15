@@ -177,25 +177,26 @@ const TutorProfileUpdate = ({ tutorData }: TutorProfileUpdateProps) => {
         }
       }
 
-      const updateData: Partial<Tutor> = {
-        _id: tutorData?._id as string,
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        bio: data.bio,
-        area: data.area,
-        education: data.education,
-        experience: Number(data.experience),
-        monthlyRate: Number(data.monthlyRate),
-        availability: data.availability,
-        logo: imageUrl,
-        qualification: "",
-        rating: 0,
-        createdAt: "",
-        updatedAt: "",
-      };
+     const updateData = {
+       _id: tutorData?._id ,
+       name: data.name,
+       email: data.email,
+       phone: data.phone,
+       bio: data.bio,
+       area: data.area,
+       education: data.education,
+       experience: Number(data.experience),
+       monthlyRate: Number(data.monthlyRate),
+       availability: data.availability,
+       logo: imageUrl,
+       qualification: tutorData.qualification ?? "",
+       rating: tutorData.rating ?? 0,
+       createdAt: tutorData.createdAt ?? "",
+       updatedAt: tutorData.updatedAt ?? new Date().toISOString(),
+     } as Tutor;
 
-      const response = await updateTutorProfile(tutorData._id, updateData);
+
+      const response = await updateTutorProfile(tutorData._id as string, updateData as Tutor);
       if (response.success) {
         toast.success("Profile updated successfully");
         router.push("/dashboard/tutor/profile");
