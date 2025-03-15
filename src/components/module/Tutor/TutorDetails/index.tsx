@@ -30,9 +30,9 @@ interface AvailabilityItem {
 }
 
 const TutorDetail = ({ tutor }: TutorDetailProps) => {
-  console.log(tutor);
+ 
   const { user } = useUser();
-  console.log(user);
+
   const router = useRouter();
   const handleBookNow = async () => {
     // Check if user is logged in
