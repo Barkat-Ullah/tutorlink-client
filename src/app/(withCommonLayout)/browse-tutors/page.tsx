@@ -25,32 +25,23 @@
 
 // export default BrowseTutors;
 
-
 import { getAllTutor, getAllSubject } from "@/services/TutorServices";
 import AllTutorsPage from "@/components/module/Tutor";
 
-// You can remove the SearchParams if you're not using it
 const BrowseTutors = async () => {
-  // Static values for pagination, or use defaults if needed
-  const page = "1"; // Default to page 1 if not using searchParams
-  const limit = "4"; // Default to limit 4 tutors per page
+  const page = "1";
+  const limit = "4";
 
-  try {
-    // Fetch tutors and subjects asynchronously without needing searchParams
-    const tutors = await getAllTutor(page, limit);
-    const subjectsResponse = await getAllSubject();
-    const subjects = subjectsResponse || [];
+  const tutors = await getAllTutor(page, limit);
+  const subjectsResponse = await getAllSubject();
+  const subjects = subjectsResponse || [];
 
-    // Return the UI component with the data
-    return (
-      <div>
-        <AllTutorsPage tutors={tutors} subjects={subjects} />
-      </div>
-    );
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return <div>Error loading tutors or subjects</div>;
-  }
+  // Return the UI component with the data
+  return (
+    <div>
+      <AllTutorsPage tutors={tutors} subjects={subjects} />
+    </div>
+  );
 };
 
 export default BrowseTutors;

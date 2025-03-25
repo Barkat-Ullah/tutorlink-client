@@ -17,6 +17,7 @@ const AllTutorsPage = ({
   tutors: initialTutors,
   subjects,
 }: AllTutorsPageProps) => {
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const [tutors, setTutors] = useState<TutorDatas>(initialTutors);
@@ -26,6 +27,7 @@ const AllTutorsPage = ({
   const currentLimit = Number(searchParams.get("limit")) || 10;
 
   // Function to build query object from searchParams
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const buildQueryObject = () => {
     const query: { [key: string]: string } = {};
     searchParams.forEach((value, key) => {
@@ -39,7 +41,6 @@ const AllTutorsPage = ({
   // Fetch tutors and subjects when searchParams, currentPage, or currentLimit change
   useEffect(() => {
     const fetchTutors = async () => {
-      setIsLoading(true);
       try {
         const query = buildQueryObject();
         const data = await getAllTutor(
@@ -58,7 +59,7 @@ const AllTutorsPage = ({
     };
 
     fetchTutors();
-  }, [searchParams, currentPage, currentLimit]);
+  }, [searchParams, currentPage, currentLimit, buildQueryObject]);
 
   const updateSearchParams = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());

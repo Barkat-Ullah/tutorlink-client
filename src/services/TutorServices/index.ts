@@ -42,15 +42,12 @@ export const getAllDivision = async (): Promise<Division[]> => {
 };
 
 export const getAllSubject = async (): Promise<Subject[]> => {
+
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subject`);
-    if (!res.ok) {
-      console.error("Failed to fetch subjects:", res.status, res.statusText);
-      return [];
-    }
+   
     const response = await res.json();
-
-    return response.data || [];
+    return response.data ;
   } catch (error: any) {
     console.error("Error fetching subjects:", error);
     return [];

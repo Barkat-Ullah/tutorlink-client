@@ -153,7 +153,7 @@ export default function TutorBookings({ bookings }: TutorBookingsProps) {
     <div className="space-y-6 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold">My Bookings</h2>
 
-      {bookings.map((booking) => (
+      {bookings?.map((booking) => (
         <Card key={booking._id} className="w-full">
           <CardHeader>
             <div className="flex justify-between items-start">
@@ -187,18 +187,17 @@ export default function TutorBookings({ bookings }: TutorBookingsProps) {
                   {booking.dateTime
                     ? new Date(booking.dateTime).toLocaleDateString()
                     : "No date"}{" "}
-                  • {booking.startTime || ""} - {booking.endTime || ""}
                 </span>
               </div>
 
-              {booking.notes && (
+              {/* {booking.notes && (
                 <div className="bg-muted p-3 rounded-md">
                   <p className="text-sm font-medium mb-1">Student Notes:</p>
                   <p className="text-sm text-muted-foreground">
                     {booking.notes}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
@@ -238,7 +237,7 @@ export default function TutorBookings({ bookings }: TutorBookingsProps) {
                       {booking.dateTime
                         ? new Date(booking.dateTime).toLocaleDateString()
                         : "No date"}{" "}
-                      • {booking.startTime || ""} - {booking.endTime || ""}
+        
                     </p>
                   </div>
                   <Separator />

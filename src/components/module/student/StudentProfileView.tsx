@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -43,7 +43,7 @@ import {
   Edit,
   Save,
 } from "lucide-react";
-import { getProfileInfo, updateProfile } from "@/services/StudentServices";
+import { updateProfile } from "@/services/StudentServices";
 import { toast } from "sonner";
 
 const profileFormSchema = z.object({
@@ -84,6 +84,7 @@ const StudentProfileView = ({
 }: StudentProfileViewProps) => {
   const [profile, setProfile] = useState<ProfileData | null>(initialProfile);
   const [loading, setLoading] = useState(!initialProfile);
+  console.log(setLoading)
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -100,32 +101,32 @@ const StudentProfileView = ({
     },
   });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfileInfo();
-        if (data?.success) {
-          setProfile(data.data);
-          form.reset({
-            name: data.data.name,
-            email: data.data.email,
-            phoneNo: data.data.phoneNo,
-            gender: data.data.gender,
-            dateOfBirth: data.data.dateOfBirth,
-            address: data.data.address,
-            photo: data.data.photo,
-          });
-        }
-      } catch (error: any) {
-        console.error("Failed to fetch profile:", error);
-        toast.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const data = await getProfileInfo();
+  //       if (data?.success) {
+  //         setProfile(data.data);
+  //         form.reset({
+  //           name: data.data.name,
+  //           email: data.data.email,
+  //           phoneNo: data.data.phoneNo,
+  //           gender: data.data.gender,
+  //           dateOfBirth: data.data.dateOfBirth,
+  //           address: data.data.address,
+  //           photo: data.data.photo,
+  //         });
+  //       }
+  //     } catch (error: any) {
+  //       console.error("Failed to fetch profile:", error);
+  //       toast.error(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchProfile();
-  }, [form]);
+  //   fetchProfile();
+  // }, [form]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     if (!profile?._id) return;

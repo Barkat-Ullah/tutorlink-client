@@ -38,6 +38,7 @@ export const getTutorBooking = async () => {
       }
     );
     const data = await res.json();
+    console.log(data.data)
     return data.data;
   } catch (error: any) {
     return Error(error.message);
@@ -77,7 +78,7 @@ export async function updateBookingStatus(bookingId: string, status: string) {
          body: JSON.stringify({ status }),
       }
     );
-    console.log(response)
+ 
 
     if (!response.ok) {
       const error = await response.json();
