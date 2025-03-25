@@ -110,6 +110,7 @@ export const getAllTutor = async (
 //   }
 // };
 export const getTutor = async () => {
+  console.log("Base URL:", process.env.NEXT_PUBLIC_BASE_URL);
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor`, {
       next: {
@@ -118,7 +119,7 @@ export const getTutor = async () => {
     });
 
     const data = await res.json();
-    console.log("get tutor data", data);
+    // console.log("get tutor data", data);
 
     if (Array.isArray(data.data.result)) {
       return data.data.result;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState} from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -84,9 +84,10 @@ const StudentProfileView = ({
 }: StudentProfileViewProps) => {
   const [profile, setProfile] = useState<ProfileData | null>(initialProfile);
   const [loading, setLoading] = useState(!initialProfile);
-  console.log(setLoading)
+  console.log(setLoading);
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
+  console.log(profile);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),

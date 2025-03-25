@@ -11,12 +11,12 @@ export const getProfileInfo = async () => {
         tags: ["Profile"],
       },
       headers: {
-        Authorization: (await cookies()).get("accessToken")!.value ,
+        Authorization: (await cookies()).get("accessToken")!.value || "",
       },
     });
 
     const data = await res.json();
-    return data;
+    return data.data;
   } catch (error) {
     console.error("Error fetching profile:", error);
   }
