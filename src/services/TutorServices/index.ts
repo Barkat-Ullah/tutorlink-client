@@ -94,6 +94,21 @@ export const getAllTutor = async (
     return Error(error.message);
   }
 };
+// export const getTutor = async () => {
+//   try {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor`, {
+//       next: {
+//         tags: ["TUTOR"],
+//       },
+//     });
+
+//     const data = await res.json();
+//     console.log("get tutor data",data)
+//     return Array.isArray(data.data.result) ? data.data.result : [];
+//   } catch (error: any) {
+//     return Error(error.message);
+//   }
+// };
 export const getTutor = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tutor`, {
@@ -103,11 +118,20 @@ export const getTutor = async () => {
     });
 
     const data = await res.json();
-    return Array.isArray(data.data.result) ? data.data.result : [];
+    console.log("get tutor data", data);
+
+    if (Array.isArray(data.data.result)) {
+      return data.data.result;
+    } else {
+      console.error("Error: Result is not an array", data);
+      return []; // Return an empty array if data isn't an array
+    }
   } catch (error: any) {
-    return Error(error.message);
+    console.error("Error fetching tutors:", error);
+    return [];
   }
 };
+
 
 export const getTutorProfileInfo = async () => {
   try {
