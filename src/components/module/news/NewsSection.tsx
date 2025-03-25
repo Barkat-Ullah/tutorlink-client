@@ -29,11 +29,11 @@ const NewsSection: React.FC<NewsSectionProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate total pages
-  const totalPages = Math.ceil(data.articles.length / articlesPerPage);
+  const totalPages = Math.ceil(data?.articles?.length / articlesPerPage);
 
   // Slice the articles for the current page
   const startIndex = (currentPage - 1) * articlesPerPage;
-  const selectedArticles = data.articles.slice(
+  const selectedArticles = data?.articles?.slice(
     startIndex,
     startIndex + articlesPerPage
   );
@@ -44,26 +44,26 @@ const NewsSection: React.FC<NewsSectionProps> = ({ data }) => {
 
       {/* News Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {selectedArticles.map((article, index) => (
+        {selectedArticles?.map((article, index) => (
           <div
             key={index}
             className="bg-white border rounded-lg shadow-lg overflow-hidden"
           >
             <Image
-              src={article.urlToImage || "https://i.ibb.co/dKHwTp8/PS.png"}
-              alt={article.title || "News Image"}
+              src={article?.urlToImage || "https://i.ibb.co/dKHwTp8/PS.png"}
+              alt={article?.title || "News Image"}
               width={400}
               height={250}
               className="object-cover rounded-lg"
             />
 
             <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+              <h3 className="text-xl font-semibold mb-2">{article?.title}</h3>
               <p className="text-sm text-gray-600 mb-4">
-                {article.description}
+                {article?.description}
               </p>
               <Link
-                href={article.url}
+                href={article?.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
