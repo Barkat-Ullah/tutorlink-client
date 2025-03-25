@@ -33,7 +33,7 @@ interface TutorProfileProps {
 }
 
 const TutorProfile = ({ tutorData }: TutorProfileProps) => {
-  console.log(tutorData._id)
+  console.log(tutorData?._id)
   // const router = useRouter();
   const [activeTab, setActiveTab] = useState("overview");
   console.log(activeTab)
@@ -84,7 +84,7 @@ const TutorProfile = ({ tutorData }: TutorProfileProps) => {
     <div className="container mx-auto py-6 max-w-6xl">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Tutor Profile</h1>
-        <Link href={`/dashboard/tutor/profile/${tutorData._id}`}>
+        <Link href={`/dashboard/tutor/profile/${tutorData?._id}`}>
           <Button>
             <Edit className="mr-2 h-4 w-4" />
             Edit Profile
@@ -173,16 +173,16 @@ const TutorProfile = ({ tutorData }: TutorProfileProps) => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {subjects.map((subject) => (
-                      <Card key={subject._id} className="overflow-hidden">
+                    {subjects?.map((subject) => (
+                      <Card key={subject?._id} className="overflow-hidden">
                         <CardHeader className="bg-muted/50 py-3">
                           <CardTitle className="text-lg">
-                            {subject.name}
+                            {subject?.name}
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="pt-4">
                           <p className="text-sm text-muted-foreground mb-3">
-                            {subject.description}
+                            {subject?.description}
                           </p>
                           <div className="mt-2">
                             <h4 className="text-sm font-medium mb-2">
@@ -219,14 +219,14 @@ const TutorProfile = ({ tutorData }: TutorProfileProps) => {
                 <CardContent>
                   <div className="space-y-4">
                     {availabilityData.length > 0 ? (
-                      availabilityData.map((slot, index) => (
+                      availabilityData?.map((slot, index) => (
                         <div
                           key={index}
                           className="flex flex-col md:flex-row md:items-center gap-3 p-3 rounded-lg border"
                         >
                           <div className="flex items-center gap-2 min-w-[120px]">
                             <Calendar className="h-5 w-5 text-primary" />
-                            <span className="font-medium">{slot.day}</span>
+                            <span className="font-medium">{slot?.day}</span>
                           </div>
                           <Separator
                             className="hidden md:block h-8 w-px bg-border"
@@ -234,7 +234,7 @@ const TutorProfile = ({ tutorData }: TutorProfileProps) => {
                           />
                           <div className="flex items-start gap-2 flex-1">
                             <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
-                            <span>{slot.times}</span>
+                            <span>{slot?.times}</span>
                           </div>
                         </div>
                       ))

@@ -53,6 +53,7 @@ interface TutorBookingsProps {
 
 export default function TutorBookings({ bookings }: TutorBookingsProps) {
   const [processingAction, setProcessingAction] = useState<string | null>(null);
+  
 
   const handleConfirm = async (bookingId: string) => {
     setProcessingAction(bookingId);
@@ -131,29 +132,31 @@ export default function TutorBookings({ bookings }: TutorBookingsProps) {
     }
   };
 
-  if (bookings.length === 0) {
-    return (
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle>My Bookings</CardTitle>
-          <CardDescription>
-            You don&apos;t have any bookings yet.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="text-center py-8">
-          <p className="text-muted-foreground">
-            When students book sessions with you, they will appear here.
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
+ const safeBookings = Array.isArray(bookings) ? bookings : [];
+
+ if (safeBookings.length === 0) {
+   return (
+     <Card className="w-full max-w-4xl mx-auto">
+       <CardHeader>
+         <CardTitle>My Bookings</CardTitle>
+         <CardDescription>
+           You don&apos;t have any bookings yet.
+         </CardDescription>
+       </CardHeader>
+       <CardContent className="text-center py-8">
+         <p className="text-muted-foreground">
+           When students book sessions with you, they will appear here.
+         </p>
+       </CardContent>
+     </Card>
+   );
+ }
 
   return (
     <div className="space-y-6 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold">My Bookings</h2>
 
-      {bookings?.map((booking) => (
+      {safeBookings?.map((booking) => (
         <Card key={booking._id} className="w-full">
           <CardHeader>
             <div className="flex justify-between items-start">

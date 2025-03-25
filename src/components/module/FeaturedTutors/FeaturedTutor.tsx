@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const FeaturedTutor = ({ tutors }: { tutors: Tutor[] }) => {
+  console.log(tutors)
 
 
   return (
@@ -21,7 +22,7 @@ const FeaturedTutor = ({ tutors }: { tutors: Tutor[] }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tutors?.slice(0, 3).map((tutor: Tutor) => (
+          {tutors?.slice(0, 3)?.map((tutor: Tutor) => (
             <Card
               key={tutor._id}
               className="overflow-hidden hover:shadow-lg transition-shadow"

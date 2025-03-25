@@ -103,7 +103,7 @@ export const getTutor = async () => {
     });
 
     const data = await res.json();
-    return data.data.result;
+    return Array.isArray(data.data.result) ? data.data.result : [];
   } catch (error: any) {
     return Error(error.message);
   }
@@ -116,7 +116,7 @@ export const getTutorProfileInfo = async () => {
         tags: ["Profile"],
       },
       headers: {
-        Authorization: (await cookies()).get("accessToken")!.value,
+        Authorization: (await cookies()).get("accessToken")!.value || "",
       },
     });
 
@@ -133,7 +133,7 @@ export const updateTutorProfile = async (id: string, data: Tutor) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: (await cookies()).get("accessToken")!.value,
+        Authorization: (await cookies()).get("accessToken")!.value || "",
       },
       body: JSON.stringify(data),
     });
